@@ -1,8 +1,8 @@
-# Nesto Test Automation Project
+# Test Automation Project
 
 ## Overview
 
-This is an end-to-end test automation project for Nesto using Playwright and TypeScript. The project includes comprehensive test suites for login, signup, and consent functionalities with multi-language support (English and French), parallel test execution, and detailed reporting.
+This is an end-to-end test automation project using Playwright and TypeScript. The project includes comprehensive test suites for login, signup, and consent functionalities with multi-language support (English and French), parallel test execution, and detailed reporting.
 
 ## Features
 
