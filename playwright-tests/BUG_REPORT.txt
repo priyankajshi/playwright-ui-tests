@@ -1,0 +1,217 @@
+NESTO TEST AUTOMATION PROJECT - BUG REPORT
+==========================================
+
+Generated on: January 21, 2026
+Reporter: Test Automation Assessment
+Project: Nesto Signup/Login Test Suite
+
+SUMMARY
+=======
+This report documents bugs and issues identified during test automation assessment of the Nesto signup and login functionality. Issues are categorized by severity and functional area.
+
+CRITICAL BUGS
+=============
+
+SU-001: SECURITY ISSUE - Non-Canadian Phone Numbers Accepted
+----------------------------------------------------------
+Severity: CRITICAL
+Area: Signup Validation
+Status: ACTIVE
+
+Description:
+The signup form accepts non-Canadian phone numbers and successfully creates accounts, which violates business requirements that only Canadian phone numbers should be allowed.
+
+Expected Behavior:
+- Account creation should return HTTP 400 error for non-Canadian phone numbers
+- Error message should indicate "Unsupported phone number region. Only Canadian phone numbers are allowed."
+
+Actual Behavior:
+- Non-Canadian phone numbers are accepted
+- Accounts are created successfully with HTTP 201 response
+
+Impact:
+- Business rule violation
+- Potential compliance issues
+- Data quality concerns
+
+Location: tests/signup.spec.ts (line 555)
+Test Case: "should not allow account creation for non-Canadian phone numbers"
+
+HIGH PRIORITY BUGS
+==================
+
+SU-003: Phone Number Country Code Validation Missing
+--------------------------------------------------
+Severity: HIGH
+Area: Signup Form Validation
+Status: ACTIVE
+
+Description:
+Phone number validation does not verify that the phone number matches the selected country code.
+
+Expected Behavior:
+- When country code doesn't match phone number format, show validation error
+- Example: Phone "558132456789" with non-BR country selection should fail
+
+Actual Behavior:
+- No validation between country selection and phone number format
+- Inconsistent validation behavior
+
+Location: tests/signup.spec.ts (line 65)
+Test Case: "should show inline error when phone number and country selection are different"
+
+SU-006: Privacy Policy Link Broken for EN Users
+----------------------------------------------
+Severity: HIGH
+Area: Signup Page Links
+Status: ACTIVE
+
+Description:
+Privacy policy link is not working correctly for English users.
+
+Expected Behavior:
+- Privacy policy link should navigate to correct EN privacy policy page
+
+Actual Behavior:
+- Link is broken or navigates to incorrect page
+
+Location: tests/signup.spec.ts (line 342)
+Test Case: "should have correct link for privacy policy"
+
+MEDIUM PRIORITY BUGS
+====================
+
+LOG-006: Language Persistence Issue After Login
+----------------------------------------------
+Severity: MEDIUM
+Area: Login Functionality
+Status: ACTIVE
+
+Description:
+Language selection is not maintained after successful login, affecting French user experience.
+
+Expected Behavior:
+- User's language preference should persist after login
+- French users should remain on FR interface
+
+Actual Behavior:
+- Language reverts to English after login
+
+Location: tests/login.spec.ts (line 35)
+Impact: All French login tests are skipped
+
+LOG-003: Incomplete Email Validation
+----------------------------------
+Severity: MEDIUM
+Area: Login Form Validation
+Status: ACTIVE
+
+Description:
+Email validation is missing proper format checking after the "@" symbol.
+
+Expected Behavior:
+- Email validation should check for characters after "@"
+- Should show appropriate error for malformed emails
+
+Location: tests/login.spec.ts (line 101)
+Test Case: "should show invalid email inline error when email does not have characters after @"
+
+LOG-004: Inconsistent French Error Messages
+------------------------------------------
+Severity: MEDIUM
+Area: Login Form Validation - Internationalization
+Status: ACTIVE
+
+Description:
+French error messages for invalid email don't match English version functionality.
+
+Location: tests/login.spec.ts (line 129)
+
+LOG-002: French Validation Text Inconsistency
+--------------------------------------------
+Severity: MEDIUM
+Area: Login Form Validation - Internationalization
+Status: ACTIVE
+
+Description:
+French text for empty field validation doesn't match English version.
+
+Location: tests/login.spec.ts (line 164)
+
+LOG-005: French Wrong Credentials Error Message
+---------------------------------------------
+Severity: MEDIUM
+Area: Login Error Handling - Internationalization
+Status: ACTIVE
+
+Description:
+French text for wrong credentials error message needs correction.
+
+Location: tests/login.spec.ts (line 242)
+
+TECHNICAL DEBT & INFRASTRUCTURE ISSUES
+=====================================
+
+TECH-001: Consent Modal Tests Unreliable in CI
+---------------------------------------------
+Severity: LOW
+Area: Test Infrastructure
+Status: ACTIVE
+
+Description:
+Consent modal tests are skipped in CI because Didomi blocks datacenter IPs.
+
+Impact:
+- Reduced test coverage in CI/CD pipeline
+- Manual testing required for consent functionality
+
+Location: tests/consent.spec.ts (line 24)
+
+TECH-002 & TECH-003: Account Lockout Prevention
+----------------------------------------------
+Severity: LOW
+Area: Test Infrastructure
+Status: ACTIVE
+
+Description:
+Multiple login failure tests are skipped locally to prevent account lockouts. Tests only run in CI environment.
+
+Impact:
+- Limited local testing capability
+- Dependency on CI for comprehensive testing
+
+Locations: 
+- tests/login.spec.ts (line 248)
+- tests/login.spec.ts (line 292)
+
+RECOMMENDATIONS
+===============
+
+1. IMMEDIATE ACTION REQUIRED:
+   - Fix SU-001 (non-Canadian phone validation) - SECURITY ISSUE
+   - Implement proper phone-country validation (SU-003)
+
+2. HIGH PRIORITY:
+   - Fix privacy policy links (SU-006)
+   - Resolve language persistence after login (LOG-006)
+
+3. MEDIUM PRIORITY:
+   - Complete email validation implementation (LOG-003)
+   - Standardize French translations and error messages (LOG-004, LOG-002, LOG-005)
+
+4. INFRASTRUCTURE IMPROVEMENTS:
+   - Implement test user management to avoid lockout issues
+   - Set up proper test environment for consent testing
+   - Consider using test doubles/mocks for external services
+
+TESTING GAPS IDENTIFIED
+=======================
+- No negative API testing for malformed requests
+- Limited boundary value testing for input fields
+- Insufficient cross-browser validation
+- Missing accessibility testing
+- No performance testing for form submissions
+- Limited security testing (OWASP top 10)
+
+STATUS: ACTIVE ISSUES REQUIRING ATTENTION
+NEXT REVIEW: Pending development team response

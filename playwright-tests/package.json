@@ -1,0 +1,55 @@
+{
+  "name": "nesto",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test:ui": "npx playwright test --ui",
+    "test:headed": "npx playwright test --headed",
+    "test:docker": "npx playwright test",
+    "test:docker:signup": "npx playwright test --grep @signup",
+    "test:docker:login": "npx playwright test --grep @login --no-deps",
+    "test:docker:consent": "npx playwright test --grep @consent",
+    "test:signup": "npx playwright test --grep @signup --headed",
+    "test:login": "npx playwright test --grep @login --headed --no-deps",
+    "test:consent": "npx playwright test --grep @consent --headed",
+    "report:show": "npx playwright show-report",
+    "report:allure": "allure generate ./allure-results --clean -o ./allure-report && allure open ./allure-report",
+    "lint:ci": "npx tsc -p tsconfig.json --noEmit",
+    "lint": "eslint . && tsc --noEmit",
+    "format:check": "prettier . --check",
+    "format:fix": "prettier . --write",
+    "prepare": "husky"
+  },
+  "lint-staged": {
+    "*.{ts,js}": [
+      "eslint --fix",
+      "prettier --write"
+    ],
+    "*.{json,md,yaml,yml}": [
+      "prettier --write"
+    ]
+  },
+  "keywords": [],
+  "author": "mariana",
+  "license": "ISC",
+  "description": "",
+  "type": "module",
+  "engines": {
+    "node": ">=24.0.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@faker-js/faker": "^10.2.0",
+    "@playwright/mcp": "^0.0.54",
+    "@playwright/test": "^1.57.0",
+    "@types/node": "^25.0.3",
+    "allure-playwright": "^3.4.3",
+    "dotenv": "^17.2.3",
+    "eslint": "^9.39.2",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.7",
+    "prettier": "3.7.4",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.52.0"
+  }
+}
